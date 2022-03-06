@@ -4,196 +4,157 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#1E1E1E"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutPlayer"
-        android:layout_width="415dp"
-        android:layout_height="93dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageButton
-            android:id="@+id/play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_media_play" />
-
-        <ImageButton
-            android:id="@+id/prev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/play"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_media_previous" />
-
-        <ImageButton
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/play"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_media_next" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutMic"
-        android:layout_width="409dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayoutPlayer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutView">
-
-        <ImageButton
-            android:id="@+id/microphone"
-            android:layout_width="177dp"
-            android:layout_height="93dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.506"
-            app:srcCompat="@android:drawable/ic_btn_speak_now" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutView"
-        android:layout_width="412dp"
-        android:layout_height="514dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/current"
+            android:id="@+id/nameApp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:text="Lecture en cours"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:textSize="30sp"
+            android:text="ONZEUR™"
+            android:textAlignment="center"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayoutPrev" />
+            android:textStyle="italic" />
 
-        <TextView
-            android:id="@+id/history"
-            android:layout_width="wrap_content"
-            android:layout_height="19dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:text="Ecouté précédemment"
-            android:textStyle="bold"
+        <ImageButton
+            android:id="@+id/sharepic"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/button_shape"
+            android:src="@android:drawable/ic_menu_manage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayoutPrev"
-            android:layout_width="413dp"
-            android:layout_height="220dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/history">
-
-            <ImageView
-                android:id="@+id/cover_prev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/cover2016" />
-
-            <TextView
-                android:id="@+id/title_prev"
-                android:layout_width="181dp"
-                android:layout_height="39dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="50dp"
-                android:text="Godot ~ The Fragrance of Dark Coffee"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/cover_prev"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/artiste_prev"
-                android:layout_width="181dp"
-                android:layout_height="39dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="50dp"
-                android:text="Noriyuki Iwadare"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/cover_prev" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayoutCurr"
-            android:layout_width="413dp"
-            android:layout_height="215dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/current">
-
-            <ImageView
-                android:id="@+id/cover_curr"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/cover2019" />
-
-            <TextView
-                android:id="@+id/title_curr"
-                android:layout_width="182dp"
-                android:layout_height="33dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="50dp"
-                android:text="Neo-Tokyo Warrior Steel Samurai"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cover_curr"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/artiste_curr"
-                android:layout_width="181dp"
-                android:layout_height="39dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="50dp"
-                android:text="Tokyo Philharmonic Orchestra"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cover_curr" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+            app:layout_constraintBottom_toBottomOf="@id/nameApp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Populaire" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/topSongs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/song_item_recyclerview"
+                />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="?android:attr/listDivider" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Dernieres écoutes" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lastSongs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/song_item_recyclerview"
+
+                />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_height="100dp"
+                android:layout_width="100dp"
+                android:layout_margin="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/media_actions"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/button_shape"
+                app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+            <LinearLayout
+                android:id="@+id/media_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
+
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@android:drawable/ic_media_previous" />
+
+                <ImageButton
+                    android:id="@+id/imageButton4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@android:drawable/ic_media_play" />
+
+                <ImageButton
+                    android:id="@+id/imageButton5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@android:drawable/ic_media_next" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
