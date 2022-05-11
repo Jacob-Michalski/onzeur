@@ -1,20 +1,20 @@
 package fr.uavignon.ceri.onzeur
 
 import okhttp3.*
+import okhttp3.internal.wait
 import okio.IOException
 
 
 class ApiSDP {
-    val _ENDPOINT: String = "http://192.168.5.66/"
+    public val IP : String = "http://192.168.85.86:9090/"
+    public val _ENDPOINT: String = "http://192.168.85.86:8080/RESTreaming/"
     private val client = OkHttpClient()
-    val ref: String? = null
+    public var ref: String? = null
 
     public fun playSong(artiste: String, titre: String) {
+        val url : String = _ENDPOINT + "play/" + artiste + "/" + titre;
         val request = Request.Builder()
-            .url(_ENDPOINT)
-            .url("play/")
-            .url("$artiste/")
-            .url(titre)
+            .url(url)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -30,17 +30,18 @@ class ApiSDP {
                         println("$name: $value")
                     }
 
-                    println(response.body!!.string())
+                    //println(response.body!!.string())
+                    ref = response.body?.string()
                 }
             }
         })
+
     }
 
     public fun pauseSong() {
+        val url : String = _ENDPOINT + "pause/" + ref
         val request = Request.Builder()
-            .url(_ENDPOINT)
-            .url("pause/")
-            .url(ref!!)
+            .url(url)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -63,10 +64,9 @@ class ApiSDP {
     }
 
     public fun resumeSong() {
+        val url : String = _ENDPOINT + "resume/" + ref
         val request = Request.Builder()
-            .url(_ENDPOINT)
-            .url("resume/")
-            .url(ref!!)
+            .url(url)
             .build()
 
         client.newCall(request).enqueue(object : Callback {

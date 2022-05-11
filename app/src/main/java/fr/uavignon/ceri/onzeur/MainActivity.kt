@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
-import java.io.File
 import java.util.*
 
 class MainActivity : AppCompatActivity(), RecognitionListener {
@@ -81,6 +79,8 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
         }
 
         val buttonPlay = findViewById<ImageButton>(R.id.playButton)
+        val buttonNext = findViewById<ImageButton>(R.id.nextButton)
+        val buttonPrevious = findViewById<ImageButton>(R.id.previousButton)
         val libVLC = LibVLC(this, ArrayList<String>().apply {
             add("--no-drop-late-frames")
             add("--no-skip-frames")
@@ -88,13 +88,40 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
             add("-vvv")
         })
         val mediaPlayer = MediaPlayer(libVLC)
+        val api = ApiSDP()
 
         buttonPlay.setOnClickListener{
-            Media(libVLC, Uri.parse("rtsp://192.168.5.66:8080/test")).apply {
+            playSong(libVLC,mediaPlayer, api)
+        }
+
+        buttonNext.setOnClickListener{
+            api.pauseSong()
+            mediaPlayer.stop()
+            mediaPlayer.release()
+        }
+
+        buttonPrevious.setOnClickListener{
+            api.resumeSong()
+            val url : String = api.IP + api.ref
+            Media(libVLC, Uri.parse(url)).apply {
                 mediaPlayer.media = this
             }.release()
             mediaPlayer.play()
         }
+    }
+
+    private fun playSong(libVLC: LibVLC, mediaPlayer: MediaPlayer, api: ApiSDP) {
+        api.playSong("Muse", "Feeling Good")
+
+        while (api.ref == null) {}
+
+        val url : String = api.IP + api.ref
+        println(url)
+        //Media(libVLC, Uri.parse("rtsp://192.168.5.66:8080/test")).apply {
+        Media(libVLC, Uri.parse(url)).apply {
+            mediaPlayer.media = this
+        }.release()
+        mediaPlayer.play()
     }
 
     private fun checkPerms(){
