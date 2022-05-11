@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.speech.tts.TextToSpeech
 import android.view.MotionEvent
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
@@ -20,13 +21,15 @@ import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import java.util.*
 
-class MainActivity : AppCompatActivity(), RecognitionListener {
+class MainActivity : AppCompatActivity(), RecognitionListener, TextToSpeech.OnInitListener {
 
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        var tts = TextToSpeech(this,this)
 
         val topSongsRecyclerView = findViewById<RecyclerView>(R.id.topSongs)
         val lastSongsRecyclerView = findViewById<RecyclerView>(R.id.lastSongs)
@@ -51,43 +54,16 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
         topSongsRecyclerView.adapter = adapterTop
         lastSongsRecyclerView.adapter = adapterLast
 
-        val buttonMic = findViewById<ImageButton>(R.id.microphoneButton)
-        buttonMic.setOnTouchListener { _, motionEvent ->
-            when(motionEvent.action){
-                MotionEvent.ACTION_DOWN -> {
-                    if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
-                            && ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        val permissions = arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        ActivityCompat.requestPermissions(this, permissions,0)
-                    } else {
-                        speechRecognizer.startListening(speechRecognizerIntent)
-                        //recorder = Recorder(path)
-                        buttonMic.setBackgroundResource(R.drawable.button_shape_pressed)
-                        //Toast.makeText(this, recorder!!.startRecording(), Toast.LENGTH_SHORT).show()
-                    }
-                }
-                MotionEvent.ACTION_UP -> {
-                    buttonMic.setBackgroundResource(R.drawable.button_shape)
-                    speechRecognizer.stopListening()
-
-                    //Toast.makeText(this,recorder!!.stopRecording(), Toast.LENGTH_SHORT).show()
-                }
-            }
-            true
-        }
-
         val buttonPlay = findViewById<ImageButton>(R.id.playButton)
         val buttonNext = findViewById<ImageButton>(R.id.nextButton)
         val buttonPrevious = findViewById<ImageButton>(R.id.previousButton)
-        val libVLC = LibVLC(this, ArrayList<String>().apply {
+        var libVLC = LibVLC(this, ArrayList<String>().apply {
             add("--no-drop-late-frames")
             add("--no-skip-frames")
             add("--rtsp-tcp")
             add("-vvv")
         })
-        val mediaPlayer = MediaPlayer(libVLC)
+        var mediaPlayer = MediaPlayer(libVLC)
         val api = ApiSDP()
 
         buttonPlay.setOnClickListener{
@@ -97,24 +73,58 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
         buttonNext.setOnClickListener{
             api.pauseSong()
             mediaPlayer.stop()
-            mediaPlayer.release()
         }
 
         buttonPrevious.setOnClickListener{
             api.resumeSong()
+            libVLC = LibVLC(this, ArrayList<String>().apply {
+                add("--no-drop-late-frames")
+                add("--no-skip-frames")
+                add("--rtsp-tcp")
+                add("-vvv")
+            })
+            mediaPlayer = MediaPlayer(libVLC)
             val url : String = api.IP + api.ref
             Media(libVLC, Uri.parse(url)).apply {
                 mediaPlayer.media = this
             }.release()
             mediaPlayer.play()
+
+        }
+
+        val buttonMic = findViewById<ImageButton>(R.id.microphoneButton)
+        buttonMic.setOnTouchListener { _, motionEvent ->
+            when(motionEvent.action){
+                MotionEvent.ACTION_DOWN -> {
+                    if (checkPerms()){
+                    } else {
+                        speechRecognizer.startListening(speechRecognizerIntent)
+                        buttonMic.setBackgroundResource(R.drawable.button_shape_pressed)
+                        mediaPlayer.volume = 10
+                    }
+                }
+                MotionEvent.ACTION_UP -> {
+                    buttonMic.setBackgroundResource(R.drawable.button_shape)
+                    speechRecognizer.stopListening()
+                    mediaPlayer.volume = 100
+
+                }
+            }
+            true
         }
     }
 
+    private fun speakText(text : String, tts : TextToSpeech){
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,"")
+    }
+
     private fun playSong(libVLC: LibVLC, mediaPlayer: MediaPlayer, api: ApiSDP) {
-        api.playSong("Muse", "Feeling Good")
+        if (api.ref == null) {
+            api.playSong("Muse", "Feeling Good")
 
-        while (api.ref == null) {}
-
+            while (api.ref == null) {
+            }
+        }
         val url : String = api.IP + api.ref
         println(url)
         //Media(libVLC, Uri.parse("rtsp://192.168.5.66:8080/test")).apply {
@@ -124,7 +134,7 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
         mediaPlayer.play()
     }
 
-    private fun checkPerms(){
+    private fun checkPerms(): Boolean{
         if (ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
@@ -138,7 +148,8 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
                 Manifest.permission.MANAGE_EXTERNAL_STORAGE
             )
             ActivityCompat.requestPermissions(this, permissions, 0)
-        }
+            return true
+        }else return false
     }
 
     /*
@@ -177,5 +188,9 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
     }
 
     override fun onEvent(p0: Int, p1: Bundle?) {
+    }
+
+    override fun onInit(p0: Int) {
+
     }
 }

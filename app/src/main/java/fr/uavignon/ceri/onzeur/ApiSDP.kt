@@ -6,12 +6,16 @@ import okio.IOException
 
 
 class ApiSDP {
-    public val IP : String = "http://192.168.85.86:9090/"
-    public val _ENDPOINT: String = "http://192.168.85.86:8080/RESTreaming/"
+    val IP : String = "http://192.168.85.86:9090/"
+    val _ENDPOINT: String = "http://192.168.85.86:8080/RESTreaming/"
     private val client = OkHttpClient()
-    public var ref: String? = null
+    var ref: String? = null
 
-    public fun playSong(artiste: String, titre: String) {
+    fun playSong(artiste: String, titre: String) {
+        if (ref != null) {
+            stopSong()
+            ref = null
+        }
         val url : String = _ENDPOINT + "play/" + artiste + "/" + titre;
         val request = Request.Builder()
             .url(url)
@@ -38,7 +42,7 @@ class ApiSDP {
 
     }
 
-    public fun pauseSong() {
+    fun pauseSong() {
         val url : String = _ENDPOINT + "pause/" + ref
         val request = Request.Builder()
             .url(url)
@@ -63,7 +67,7 @@ class ApiSDP {
         })
     }
 
-    public fun resumeSong() {
+    fun resumeSong() {
         val url : String = _ENDPOINT + "resume/" + ref
         val request = Request.Builder()
             .url(url)
@@ -88,11 +92,11 @@ class ApiSDP {
         })
     }
 
-    public fun stopSong() {
+    fun stopSong() {
+        val url : String = _ENDPOINT + "stop/" + ref
+
         val request = Request.Builder()
-            .url(_ENDPOINT)
-            .url("stop/")
-            .url(ref!!)
+            .url(url)
             .build()
 
         client.newCall(request).enqueue(object : Callback {

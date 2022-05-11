@@ -44,6 +44,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'org.videolan.android:libvlc-all:3.3.13'
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.beust:klaxon:3.0.2'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
