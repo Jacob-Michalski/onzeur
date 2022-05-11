@@ -20,7 +20,6 @@ import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import java.io.File
-import java.lang.Exception
 import java.util.*
 
 class MainActivity : AppCompatActivity(), RecognitionListener {
@@ -42,15 +41,13 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
 
         checkPerms()
 
-        var speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-        var speechRecognizerIntent: Intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
+        val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.FRENCH)
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US)
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
         speechRecognizer.setRecognitionListener(this)
-
-        var path = getFilePath()
 
 
         topSongsRecyclerView.adapter = adapterTop
@@ -64,12 +61,12 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
                             Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
                             && ContextCompat.checkSelfPermission(this,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        val permissions = arrayOf(android.Manifest.permission.RECORD_AUDIO, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                        val permissions = arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                         ActivityCompat.requestPermissions(this, permissions,0)
                     } else {
                         speechRecognizer.startListening(speechRecognizerIntent)
                         //recorder = Recorder(path)
-                        buttonMic.setBackgroundResource(R.drawable.button_shape_pressed);
+                        buttonMic.setBackgroundResource(R.drawable.button_shape_pressed)
                         //Toast.makeText(this, recorder!!.startRecording(), Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -80,18 +77,17 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
                     //Toast.makeText(this,recorder!!.stopRecording(), Toast.LENGTH_SHORT).show()
                 }
             }
-            true;
+            true
         }
 
         val buttonPlay = findViewById<ImageButton>(R.id.playButton)
-        var libVLC : LibVLC? = null
-        libVLC = LibVLC(this, ArrayList<String>().apply {
+        val libVLC = LibVLC(this, ArrayList<String>().apply {
             add("--no-drop-late-frames")
             add("--no-skip-frames")
             add("--rtsp-tcp")
             add("-vvv")
         })
-        var mediaPlayer = MediaPlayer(libVLC)
+        val mediaPlayer = MediaPlayer(libVLC)
 
         buttonPlay.setOnClickListener{
             Media(libVLC, Uri.parse("rtsp://192.168.5.66:8080/test")).apply {
@@ -108,21 +104,23 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
             && ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             val permissions = arrayOf(
-                android.Manifest.permission.RECORD_AUDIO,
-                android.Manifest.permission.INTERNET,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                android.Manifest.permission.MANAGE_EXTERNAL_STORAGE
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.INTERNET,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.MANAGE_EXTERNAL_STORAGE
             )
             ActivityCompat.requestPermissions(this, permissions, 0)
         }
     }
 
+    /*
     private fun getFilePath(): String{
-        var directory = this.baseContext.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
-        var file = File(directory, "file.3gpp")
+        val directory = this.baseContext.getExternalFilesDir(Environment.DIRECTORY_MUSIC)
+        val file = File(directory, "file.3gpp")
         return file.path
     }
+    */
 
     override fun onReadyForSpeech(p0: Bundle?) {
     }
