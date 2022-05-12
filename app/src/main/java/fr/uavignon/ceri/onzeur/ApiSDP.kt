@@ -6,15 +6,20 @@ import okio.IOException
 
 
 class ApiSDP {
-    val IP : String = "http://192.168.85.86:9090/"
-    val _ENDPOINT: String = "http://192.168.85.86:8080/RESTreaming/"
+    val IP : String = "http://192.168.5.66:9090/"
+    val _ENDPOINT: String = "http://192.168.5.66:8080/RESTreaming/"
     private val client = OkHttpClient()
-    var ref: String? = null
+    private var ref: String = "null"
+
+    fun setRef(ref : String) { this.ref = ref}
+
+    fun getRef(): String { return ref}
+
 
     fun playSong(artiste: String, titre: String) {
-        if (ref != null) {
+        if (ref != "null") {
             stopSong()
-            ref = null
+            ref = "null"
         }
         val url : String = _ENDPOINT + "play/" + artiste + "/" + titre;
         val request = Request.Builder()
@@ -35,7 +40,8 @@ class ApiSDP {
                     }
 
                     //println(response.body!!.string())
-                    ref = response.body?.string()
+                    ref = response.body!!.string()
+                    println(ref)
                 }
             }
         })
@@ -117,5 +123,7 @@ class ApiSDP {
             }
         })
     }
+
+
 
 }

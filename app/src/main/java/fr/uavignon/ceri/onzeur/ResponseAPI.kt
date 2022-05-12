@@ -7,11 +7,10 @@ private val klaxon = Klaxon()
 
 data class ResponseAPI (
     val action: String,
-    val titre: String,
-    val artiste: String,
-    val imgURL: String,
+    val title: String,
+    val artist: String,
     val ref: String,
-    val statusCode: String
+    val status: String
 ) {
     public fun toJson() = klaxon.toJsonString(this)
 
