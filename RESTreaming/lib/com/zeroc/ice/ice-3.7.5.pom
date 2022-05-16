@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.zeroc</groupId>
+  <artifactId>ice</artifactId>
+  <version>3.7.5</version>
+  <name>Ice</name>
+  <description>Ice is a comprehensive RPC framework that helps you build distributed applications with minimal effort using familiar object-oriented idioms</description>
+  <url>https://zeroc.com</url>
+  <licenses>
+    <license>
+      <name>GNU General Public License, version 2</name>
+      <url>https://www.gnu.org/licenses/gpl-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>ZeroC Developers</name>
+      <email>info@zeroc.com</email>
+      <organization>ZeroC, Inc.</organization>
+      <organizationUrl>https://zeroc.com</organizationUrl>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git@github.com/zeroc-ice/ice.git</connection>
+    <developerConnection>scm:git:git@github.com/zeroc-ice/ice.git</developerConnection>
+    <url>git://github.com/zeroc-ice/ice.git</url>
+  </scm>
+</project>
